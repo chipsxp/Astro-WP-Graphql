@@ -1,9 +1,15 @@
 ---
+// Global Styles
+import '../styles/global.css';
+// End Global Styles
+
 // Component Imports
 import Button from '../components/Button.astro';
+// End Component Imports
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+// Varible Definitions
+const title = 'Astro + TailwindCSS';
+// End Varible Definitions
 ---
 
 <html lang="en">
@@ -17,6 +23,7 @@ import Button from '../components/Button.astro';
 
 	<body>
 		<div class="grid place-items-center h-screen content-center">
+			<h1 class="text-2xl bg-red-500 font-bold">{title}</h1>
 			<Button>Tailwind Button in Astro!</Button>
 			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
 		</div>
