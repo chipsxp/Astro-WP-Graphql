@@ -1,0 +1,60 @@
+---
+// Deconstruct BlockRender with properties of blocks
+const { blocks } = Astro.props;
+// End Deconstruct
+
+// Renamed BlockRender onto itself as BlockRenderInner
+import BlockRenderInner from "./BlockRender.astro";
+// End BlockRenderInner
+
+// WP Block and Style Tools imported
+import { getBlockStyling } from "@wp-block-tools/styles";
+import type { Block } from "@wp-block-tools/styles";
+// End WP Block import
+
+// Typeface Props for Blocks
+type Props = {
+  blocks: Block[];
+};
+// End Typeface
+---
+
+{
+  blocks.map((block) => {
+    const { classes, styles } = getBlockStyling(block);
+    switch (block.name) {
+      case "core/heading":
+        return (
+          <h1
+            class={classes + "text-2xl"}
+            style={styles}
+            set:html={block.attributes?.content}
+          />
+        );
+
+      case "core/columns":
+      case "core/column":
+      case "core/post-content":
+        return (
+          <div style={styles}>
+            <div class={classes + "md:flex row-span-1"}>
+              <BlockRenderInner blocks={block.innerBlocks || []} />
+            </div>
+          </div>
+        );
+
+      case "core/paragraph":
+        return (
+          <p
+            class={classes}
+            style={styles}
+            set:html={block.attributes?.content}
+          />
+        );
+      // if no case is matched return default
+      // return <p>default</p>;
+      default:
+        return <p>default</p>;
+    }
+  })
+}

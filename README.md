@@ -4,9 +4,24 @@
 npm create astro@latest -- --template with-tailwindcss
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/with-tailwindcss)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/with-tailwindcss)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/with-tailwindcss/devcontainer.json)
+--Written with StackEdit and this editor is fantastically wonderful to use
+---Notes from pluckCode over the experience of Headless CMS Astro Js with WordPress as backend
+
+# Astro JS Querying a WordPress GraphQL Server
+
+## Query GraphQL for blocks structure and content
+
+Completed BlockRender.astro for multiple block renders.
+
+## BlockRender.astro
+
+**Special Attention** to BlockRenderInner function name for looped block renders onto itself
+
+## Install Tailwind CSS for Astro JS notes
+
+Installation to Astro Js for added class styling, flex, grids and media widths. Works in conjunction with the WordPress blocks theme.json file.
+
+## Install Tailwind CSS- General notes
 
 Astro comes with [Tailwind](https://tailwindcss.com) support out of the box. This example showcases how to style your Astro project with Tailwind.
 

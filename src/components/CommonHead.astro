@@ -1,0 +1,43 @@
+---
+// Global Styles
+import "../styles/global.css";
+// End Global Styles
+
+// Typeface properties for title and description
+type Props = {
+  title: string;
+  description: string;
+};
+// Deconstruct CommonHead with properties of title and description
+const { title, description } = Astro.props;
+// End Typeface and Deconstruct
+
+// Fetch Homepage Content from WP Graphql API
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    query: `query HeaderQuery {
+            nodeByUri(uri: "/") {
+              ... on Page {
+                id
+              }
+            }
+            cssVariables
+          }`,
+  }),
+});
+const { data } = await response.json();
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {!!data.cssVariables && <style set:html={`:root{${data.cssVariables}}`} />}
+</head>

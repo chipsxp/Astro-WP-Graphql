@@ -1,31 +1,48 @@
 ---
-// Global Styles
-import '../styles/global.css';
-// End Global Styles
+// WP Tools
+import type { Block } from "@wp-block-tools/styles";
+// End WP Tools
 
 // Component Imports
-import Button from '../components/Button.astro';
+import BlockRender from "../components/BlockRender.astro";
+import CommonHead from "../components/CommonHead.astro";
 // End Component Imports
 
-// Varible Definitions
-const title = 'Astro + TailwindCSS';
-// End Varible Definitions
+// Fetch Homepage Content from WP Graphql API
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    query: `query PageQuery {
+            nodeByUri(uri: "/") {
+          ... on Page {
+            id
+            blocks
+            seo{
+              metaDesc
+              title
+            }
+          }
+        }
+      }`,
+  }),
+});
+const { data } = await response.json();
+// End Fetch Homepage Content from WP Graphql API
+
+// Deconstruct data to block and seo properties
+const blocks = (data.nodeByUri?.blocks || []) as Block[];
+const seo = data.nodeByUri?.seo;
+// End Deconstruct
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
-
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<h1 class="text-2xl bg-red-500 font-bold">{title}</h1>
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
+  <CommonHead title={seo.title || ""} description={seo.metaDesc || ""} />
+  <body>
+    <main>
+      <BlockRender blocks={blocks} />
+    </main>
+  </body>
 </html>
